@@ -11,3 +11,4 @@
     <input type="submit" value="Log In"/>
   </div>
 </form>
+<a href="/auth/github">Login with GitHub</a>

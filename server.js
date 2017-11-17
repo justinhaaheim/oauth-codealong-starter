@@ -3,6 +3,7 @@ const express = require('express')
 const bodyParser = require('body-parser')
 const session = require('express-session')
 const authRoutes = require('./routes/auth')
+const passport = require('./passport')
 require('hjs')
 
 const port = process.env.PORT || 3000
@@ -19,9 +20,19 @@ app.use(session({
   saveUninitialized: false,
 }))
 
+app.use(passport.initialize())
+app.use(passport.session())
+
 app.use(authRoutes)
 
-app.get('/success', (req, res) => {
+function loginRequired(req, res, next) {
+  if (!req.isAuthenticated()) {
+    return res.status(403).render('403')
+  }
+  next()
+}
+
+app.get('/success', loginRequired, (req, res) => {
   res.render('success')
 })
 
