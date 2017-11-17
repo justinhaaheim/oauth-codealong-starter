@@ -1,12 +1,16 @@
-const router = require("express").Router()
+const router = require('express').Router()
 
-router.get("/login", (req, res, next) => {
-  res.render("login")
+router.get('/login', (req, res) => {
+  res.render('login')
 })
 
-router.get("/logout", (req, res, next) => {
+router.get('/logout', (req, res) => {
   req.session.destroy((err) => {
-    res.redirect("/login")
+    if (err) {
+      // eslint-disable-next-line
+      console.log('Error destroying session:', err)
+    }
+    res.redirect('/login')
   })
 })
 
